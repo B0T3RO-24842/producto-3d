@@ -1,0 +1,38 @@
+@import "tailwindcss";
+
+/* Registered so the accent colour can animate between products. */
+@property --accent {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #f2572c;
+}
+
+@theme {
+  --color-tinta: #0b0c0e;
+  --color-hueso: #f4f1e7;
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+  --animate-pop: pop 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  @keyframes pop {
+    from { transform: translateY(6px) scale(0.92); opacity: 0.3; }
+    to { transform: none; opacity: 1; }
+  }
+}
+
+@theme inline {
+  --color-accent: var(--accent);
+}
+
+body { background: var(--color-tinta); color: var(--color-hueso); }
+
+.stage { transition: --accent 0.7s ease; }
+.glow { background: radial-gradient(closest-side, color-mix(in oklab, var(--accent) 42%, transparent), transparent); }
+
+/* Fades the 3D floor into the page at the sides and bottom of the viewer. */
+.viewer {
+  mask-image: linear-gradient(to right, transparent, #000 22%, #000 78%, transparent), linear-gradient(to top, transparent, #000 14%);
+  mask-composite: intersect;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
